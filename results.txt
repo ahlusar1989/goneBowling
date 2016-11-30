@@ -1,0 +1,233 @@
+Sarans-MacBook-Pro-2:goneBowling sahluwalia$ sbt test
+[info] Loading project definition from /Users/sahluwalia/goneBowling/project
+[info] Set current project to goneBowling (in build file:/Users/sahluwalia/goneBowling/)
+[info] Compiling 1 Scala source to /Users/sahluwalia/goneBowling/target/scala-2.11/classes...
+[info] Compiling 1 Scala source to /Users/sahluwalia/goneBowling/target/scala-2.11/test-classes...
+[info] ScoreCombinatorParserSpec
+[info] 
+[info] game with 1 frame without bonus rolls should
+[info] + ScoreCombinatorParser("23", 1) === ScoreSheet(List(Frame(2, 3)))
+[info] + ScoreCombinatorParser("-9", 1) === ScoreSheet(List(Frame(0, 9)))
+[info] 
+[info] game with 2 frames without bonus rolls should
+[info] + ScoreCombinatorParser("2754", 2) === ScoreSheet(List(Frame(2, 7), Frame(5, 4)))
+[info] + ScoreCombinatorParser("3/21", 2) === ScoreSheet(List(Frame(3, 7), Frame(2,1)))
+[info] + ScoreCombinatorParser("X44", 2) === ScoreSheet(List(Frame(10), Frame(4, 4)))
+[info] 
+[info] game with 1 frame with bonus rolls should
+[info] + ScoreCombinatorParser("8/7", 1) === ScoreSheet(List(Frame(8,2)), List(7))
+[info] + ScoreCombinatorParser("X12", 1) === ScoreSheet(List(Frame(10)), List(1,2))
+[info] + ScoreCombinatorParser("1/X", 1) === ScoreSheet(List(Frame(1,9)), List(10))
+[info] + ScoreCombinatorParser("XXX", 1) === ScoreSheet(List(Frame(10)), List(10,10))
+[info] + ScoreCombinatorParser("X3/", 1) === ScoreSheet(List(Frame(10)), List(3,7))
+[info] + ScoreCombinatorParser("8/X", 1) === ScoreSheet(List(Frame(8,2)), List(10))
+[info] 
+[info] game with 2 frames with bonus rolls should
+[info] + ScoreCombinatorParser("123/5", 2) === ScoreSheet(List(Frame(1,2),Frame(3,7)), List(5))
+[info] + ScoreCombinatorParser("1/2/5", 2) === ScoreSheet(List(Frame(1,9),Frame(2,8)), List(5))
+[info] + ScoreCombinatorParser("XXXX", 2) === ScoreSheet(List(Frame(10),Frame(10)), List(10,10))
+[info] 
+[info] game with 10 frames with bonus rolls should
+[info] + ScoreCombinatorParser("XXXXXXXXXXXX", 10) === ScoreSheet(List.fill(10)(Frame(10)), List(10,10))
+[info] + ScoreCombinatorParser("9-9-9-9-9-9-9-9-9-9-", 10) === ScoreSheet(List.fill(10)(Frame(9,0)))
+[info] + ScoreCombinatorParser("5/5/5/5/5/5/5/5/5/5/5", 10) === ScoreSheet(List.fill(10)(Frame(5,5)), List(5))
+[info] 
+[info] Total for specification ScoreCombinatorParserSpec
+[info] Finished in 81 ms
+[info] 17 examples, 0 failure, 0 error
+[info] BowlingSpec
+[info] 
+[info] game with 1 frame without strikes and spares should
+[info] + return score 3 for 21
+[info] + return score 9 for 45
+[info] + return score 0 for --
+[info] + return score 7 for -7
+[info] 
+[info] game with 1 frame with spares (one bonus roll) should
+[info] + return score 11 for 7/1
+[info] + return score 19 for -/9
+[info] + return score 10 for 9/-
+[info] 
+[info] game with 1 frame with strike (two bonus rolls) should
+[info] + return score 12 for X11
+[info] + return score 21 for XX1
+[info] + return score 30 for XXX
+[info] + return score 20 for X3/
+[info] 
+[info] game with 2 frames should
+[info] + return score 14 for 3443
+[info] + return score 32=13+19 for 2/3/9
+[info] + return score 60=30+30 for XXXX
+[info] + return score 43=23+20 for XX3/
+[info] + return score 14=12+2 for X11
+[info] 
+[info] game with 10 frames should
+[info] + return max score 300 for XXXXXXXXXXXX (12 rolls: 12 strikes)
+[info] + return 90 for 9-9-9-9-9-9-9-9-9-9- (20 rolls: 10 pairs of 9 and miss)
+[info] + return 150 for 5/5/5/5/5/5/5/5/5/5/5 (21 rolls: 10 pairs of 5 and spare, with a final 5)
+[info] 
+[info] Total for specification BowlingSpec
+[info] Finished in 82 ms
+[info] 19 examples, 0 failure, 0 error
+[info] ScoreCalculatorSpec
+[info] 
+[info] one frame without bonus rolls should
+[info] + ScoreCalculator(ScoreSheet(List(Frame(1, 2)))) === 3
+[info] + ScoreCalculator(ScoreSheet(List(Frame(4, 5)))) === 9
+[info] 
+[info] one frame with bonus rolls should
+[info] + ScoreCalculator(ScoreSheet(List(Frame(1, 9)), List(7))) === 17
+[info] + ScoreCalculator(ScoreSheet(List(Frame(10)), List(1, 2))) === 13
+[info] + ScoreCalculator(ScoreSheet(List(Frame(10)), List(10, 10))) === 30
+[info] 
+[info] two frames without spares and strikes should
+[info] + ScoreCalculator(ScoreSheet(List(Frame(1, 2), Frame(3, 4)), List())) === (3 + 7)
+[info] + ScoreCalculator(ScoreSheet(List(Frame(4, 5), Frame(5, 4)), List())) === (9 + 9)
+[info] 
+[info] two frames with spare or strike as last frame should
+[info] + ScoreCalculator(ScoreSheet(List(Frame(1, 2), Frame(1, 9)), List(7))) === (3 + 17)
+[info] + ScoreCalculator(ScoreSheet(List(Frame(1, 2), Frame(10)), List(10, 10))) === (3 + 30)
+[info] 
+[info] two frames with spare as first frame should
+[info] + ScoreCalculator(ScoreSheet(List(Frame(1, 9), Frame(1, 2)), List())) === (11 + 3)
+[info] + ScoreCalculator(ScoreSheet(List(Frame(1, 9), Frame(1, 9)), List(1))) === (11 + 11)
+[info] 
+[info] two frames with strike as first frame should
+[info] + ScoreCalculator(ScoreSheet(List(Frame(10), Frame(1, 2)), List())) === (13 + 3)
+[info] + ScoreCalculator(ScoreSheet(List(Frame(10), Frame(10)), List(10, 10))) === (30 + 30)
+[info] 
+[info] game with 1 frame with spares (one bonus roll) should
+[info] + ScoreCalculator("21", 1) === 3
+[info] 
+[info] game with 10 frames should
+[info] + return max score 300 for XXXXXXXXXXXX (12 rolls: 12 strikes)
+[info] + return 90 for 9-9-9-9-9-9-9-9-9-9- (20 rolls: 10 pairs of 9 and miss)
+[info] + return 150 for 5/5/5/5/5/5/5/5/5/5/5 (21 rolls: 10 pairs of 5 and spare, with a final 5)
+[info] 
+[info] Total for specification ScoreCalculatorSpec
+[info] Finished in 83 ms
+[info] 17 examples, 0 failure, 0 error
+[info] ScalaTest
+[info] Run completed in 994 milliseconds.
+[info] Total number of tests run: 0
+[info] Suites: completed 0, aborted 0
+[info] Tests: succeeded 0, failed 0, canceled 0, ignored 0, pending 0
+[info] No tests were executed.
+[info] Passed: Total 53, Failed 0, Errors 0, Passed 53
+[success] Total time: 8 s, completed Nov 30, 2016 2:02:40 PM
+Sarans-MacBook-Pro-2:goneBowling sahluwalia$ sbt test
+[info] Loading project definition from /Users/sahluwalia/goneBowling/project
+[info] Set current project to goneBowling (in build file:/Users/sahluwalia/goneBowling/)
+[info] Compiling 1 Scala source to /Users/sahluwalia/goneBowling/target/scala-2.11/classes...
+[info] ScoreCalculatorSpec
+[info] 
+[info] one frame without bonus rolls should
+[info] + ScoreCalculator(ScoreSheet(List(Frame(1, 2)))) === 3
+[info] + ScoreCalculator(ScoreSheet(List(Frame(4, 5)))) === 9
+[info] 
+[info] one frame with bonus rolls should
+[info] + ScoreCalculator(ScoreSheet(List(Frame(1, 9)), List(7))) === 17
+[info] + ScoreCalculator(ScoreSheet(List(Frame(10)), List(1, 2))) === 13
+[info] + ScoreCalculator(ScoreSheet(List(Frame(10)), List(10, 10))) === 30
+[info] 
+[info] two frames without spares and strikes should
+[info] + ScoreCalculator(ScoreSheet(List(Frame(1, 2), Frame(3, 4)), List())) === (3 + 7)
+[info] + ScoreCalculator(ScoreSheet(List(Frame(4, 5), Frame(5, 4)), List())) === (9 + 9)
+[info] 
+[info] two frames with spare or strike as last frame should
+[info] + ScoreCalculator(ScoreSheet(List(Frame(1, 2), Frame(1, 9)), List(7))) === (3 + 17)
+[info] + ScoreCalculator(ScoreSheet(List(Frame(1, 2), Frame(10)), List(10, 10))) === (3 + 30)
+[info] 
+[info] two frames with spare as first frame should
+[info] + ScoreCalculator(ScoreSheet(List(Frame(1, 9), Frame(1, 2)), List())) === (11 + 3)
+[info] + ScoreCalculator(ScoreSheet(List(Frame(1, 9), Frame(1, 9)), List(1))) === (11 + 11)
+[info] 
+[info] two frames with strike as first frame should
+[info] + ScoreCalculator(ScoreSheet(List(Frame(10), Frame(1, 2)), List())) === (13 + 3)
+[info] + ScoreCalculator(ScoreSheet(List(Frame(10), Frame(10)), List(10, 10))) === (30 + 30)
+[info] 
+[info] game with 1 frame with spares (one bonus roll) should
+[info] + ScoreCalculator("21", 1) === 3
+[info] 
+[info] game with 10 frames should
+[info] + return max score 300 for XXXXXXXXXXXX (12 rolls: 12 strikes)
+[info] + return 90 for 9-9-9-9-9-9-9-9-9-9- (20 rolls: 10 pairs of 9 and miss)
+[info] + return 150 for 5/5/5/5/5/5/5/5/5/5/5 (21 rolls: 10 pairs of 5 and spare, with a final 5)
+[info] 
+[info] Total for specification ScoreCalculatorSpec
+[info] Finished in 57 ms
+[info] 17 examples, 0 failure, 0 error
+[info] BowlingSpec
+[info] 
+[info] game with 1 frame without strikes and spares should
+[info] + return score 3 for 21
+[info] + return score 9 for 45
+[info] + return score 0 for --
+[info] + return score 7 for -7
+[info] 
+[info] game with 1 frame with spares (one bonus roll) should
+[info] + return score 11 for 7/1
+[info] + return score 19 for -/9
+[info] + return score 10 for 9/-
+[info] 
+[info] game with 1 frame with strike (two bonus rolls) should
+[info] + return score 12 for X11
+[info] + return score 21 for XX1
+[info] + return score 30 for XXX
+[info] + return score 20 for X3/
+[info] 
+[info] game with 2 frames should
+[info] + return score 14 for 3443
+[info] + return score 32=13+19 for 2/3/9
+[info] + return score 60=30+30 for XXXX
+[info] + return score 43=23+20 for XX3/
+[info] + return score 14=12+2 for X11
+[info] 
+[info] game with 10 frames should
+[info] + return max score 300 for XXXXXXXXXXXX (12 rolls: 12 strikes)
+[info] + return 90 for 9-9-9-9-9-9-9-9-9-9- (20 rolls: 10 pairs of 9 and miss)
+[info] + return 150 for 5/5/5/5/5/5/5/5/5/5/5 (21 rolls: 10 pairs of 5 and spare, with a final 5)
+[info] 
+[info] Total for specification BowlingSpec
+[info] Finished in 62 ms
+[info] 19 examples, 0 failure, 0 error
+[info] ScoreCombinatorParserSpec
+[info] 
+[info] game with 1 frame without bonus rolls should
+[info] + ScoreCombinatorParser("23", 1) === ScoreSheet(List(Frame(2, 3)))
+[info] + ScoreCombinatorParser("-9", 1) === ScoreSheet(List(Frame(0, 9)))
+[info] 
+[info] game with 2 frames without bonus rolls should
+[info] + ScoreCombinatorParser("2754", 2) === ScoreSheet(List(Frame(2, 7), Frame(5, 4)))
+[info] + ScoreCombinatorParser("3/21", 2) === ScoreSheet(List(Frame(3, 7), Frame(2,1)))
+[info] + ScoreCombinatorParser("X44", 2) === ScoreSheet(List(Frame(10), Frame(4, 4)))
+[info] 
+[info] game with 1 frame with bonus rolls should
+[info] + ScoreCombinatorParser("8/7", 1) === ScoreSheet(List(Frame(8,2)), List(7))
+[info] + ScoreCombinatorParser("X12", 1) === ScoreSheet(List(Frame(10)), List(1,2))
+[info] + ScoreCombinatorParser("1/X", 1) === ScoreSheet(List(Frame(1,9)), List(10))
+[info] + ScoreCombinatorParser("XXX", 1) === ScoreSheet(List(Frame(10)), List(10,10))
+[info] + ScoreCombinatorParser("X3/", 1) === ScoreSheet(List(Frame(10)), List(3,7))
+[info] + ScoreCombinatorParser("8/X", 1) === ScoreSheet(List(Frame(8,2)), List(10))
+[info] 
+[info] game with 2 frames with bonus rolls should
+[info] + ScoreCombinatorParser("123/5", 2) === ScoreSheet(List(Frame(1,2),Frame(3,7)), List(5))
+[info] + ScoreCombinatorParser("1/2/5", 2) === ScoreSheet(List(Frame(1,9),Frame(2,8)), List(5))
+[info] + ScoreCombinatorParser("XXXX", 2) === ScoreSheet(List(Frame(10),Frame(10)), List(10,10))
+[info] 
+[info] game with 10 frames with bonus rolls should
+[info] + ScoreCombinatorParser("XXXXXXXXXXXX", 10) === ScoreSheet(List.fill(10)(Frame(10)), List(10,10))
+[info] + ScoreCombinatorParser("9-9-9-9-9-9-9-9-9-9-", 10) === ScoreSheet(List.fill(10)(Frame(9,0)))
+[info] + ScoreCombinatorParser("5/5/5/5/5/5/5/5/5/5/5", 10) === ScoreSheet(List.fill(10)(Frame(5,5)), List(5))
+[info] 
+[info] Total for specification ScoreCombinatorParserSpec
+[info] Finished in 72 ms
+[info] 17 examples, 0 failure, 0 error
+[info] ScalaTest
+[info] Run completed in 1 second, 31 milliseconds.
+[info] Total number of tests run: 0
+[info] Suites: completed 0, aborted 0
+[info] Tests: succeeded 0, failed 0, canceled 0, ignored 0, pending 0
+[info] No tests were executed.
+[info] Passed: Total 53, Failed 0, Errors 0, Passed 53
+[success] Total time: 5 s, completed Nov 30, 2016 2:06:07 PM

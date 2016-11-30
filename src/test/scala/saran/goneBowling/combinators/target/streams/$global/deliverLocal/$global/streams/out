@@ -1,0 +1,4 @@
+[0m[[0minfo[0m] [0m:: delivering :: default#combinators_2.10;0.1-SNAPSHOT :: 0.1-SNAPSHOT :: integration :: Wed Nov 30 13:00:19 EST 2016[0m
+[0m[[0mdebug[0m] [0m	options = status=integration pubdate=Wed Nov 30 13:00:19 EST 2016 validate=true resolveDynamicRevisions=true merge=true resolveId=null pubBranch=null[0m
+[0m[[0minfo[0m] [0m	delivering ivy file to /Users/sahluwalia/goneBowling/src/test/scala-2.12/saran/goneBowling/combinators/target/scala-2.10/ivy-0.1-SNAPSHOT.xml[0m
+[0m[[0mdebug[0m] [0m	deliver done (24ms)[0m
